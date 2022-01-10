@@ -27,7 +27,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### 环境搭建
 ```shell
 npm install --global vue-cli
-vue init web my-blog # 全部选no
+vue init webpack my-blog # 全部选no
 cd my-blog
 npm install
 npm run dev
