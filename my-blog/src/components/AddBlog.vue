@@ -1,5 +1,5 @@
 <template>
-  <div class="add-blog"> 
+  <div id="add-blog"> 
     <h2>添加博客</h2>
     <form v-if="!submitted"> 
         <label>博客标题</label>
@@ -19,7 +19,7 @@
         </div>
 
         <label>作者</label>
-        <select>
+        <select v-model="blog.author" >
             <option v-for="author in authors" :key="author">
                 {{author}}
             </option>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'add-blog',
     data() {
@@ -54,6 +55,7 @@ export default {
                 title: "",
                 content: "",
                 categories: [],
+                author: ""
             },
             authors: ["wengyifan","wyf","mouweng"],
             submitted: false
@@ -62,11 +64,9 @@ export default {
     methods: {
         post:function() {
             // https://jsonplaceholder.typicode.com/posts
-            this.$http.post("https://jsonplaceholder.typicode.com/posts", {
-                title: this.blog.title,
-                body: this.blog.content,
-                userId:1
-            }).then(function(data){
+            // this.$http.post("https://my-blog-a1af4-default-rtdb.firebaseio.com/posts.json", this.blog)
+            axios.post("/posts.json", this.blog)
+                .then((data)=>{
                 console.log(data);
                 this.submitted = true;
             })
@@ -76,5 +76,62 @@ export default {
 </script>
 
 <style>
+#add-blog *{
+    box-sizing: border-box;
+}
+
+#add-blog {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+}
+
+label {
+    display: block;
+    margin: 20px 0 10px;
+}
+
+input[type="text"], textarea, select {
+    display: block;
+    width: 100%;
+    padding: 8px;
+}
+
+textarea {
+    height: 200px;
+}
+
+#checkboxes label {
+    display: inline-block;
+    margin-top: 0;
+}
+
+#checkboxes input {
+    display: inline-block;
+    margin-right: 10;
+}
+
+button {
+    display: block;
+    margin: 20px 0;
+    background: crimson;
+    color: #fff;
+    border: 0;
+    padding: 14px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#preview {
+    padding: 10px 20px;
+    border: 1px dotted #ccc;
+    margin: 30px 0;
+}
+
+h3 {
+    margin-top: 10px;
+
+}
 
 </style>
