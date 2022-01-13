@@ -10,7 +10,7 @@
       <p class="tip">现在总共 bb 了 {{ count }} 条</p>
       <section class="item" v-for="item in contents" :key="item.content">
         <p>{{item.content}}</p>
-        <time v-bind:datetime="item.createdAt">{{item.createdAt}}</time>
+        <time v-bind:datetime="item.createdAt">{{item.createdAt | dateFormat('YYYY-MM-DD HH:mm')}}</time>
       </section>
       <div class="load-ctn">
         <button class="load-btn" v-on:click="loadMore" v-if="contents" v-cloak>
@@ -31,28 +31,39 @@ export default {
   name: "HomePage",
   data() {
     return {
-      page: 0,
+      page: 1,
       count: 0,
       contents: [],
     };
   },
   methods: {
+      getData: function(page = 1) {
+          axios.get(`http://wengyifan.com:86/blog/getblog?pageIndex=${page}&pageSize=20`).then((data)=>{
+            console.log(data.data.data);
+            this.count = data.data.data.totalNum;
+            // let contentList = data.data.data.content
+            let contentList = JSON.parse(JSON.stringify(data.data.data))['content'];
+            console.log(contentList);
+            if (contentList.length == 0) {
+                alert('之前没 bb 过了')
+            } else {
+                for(let i = 0; i < contentList.length; i ++) {
+                  this.contents.push(contentList[i]);
+                }
+            }
+          
+        })
+      },
       loadMore: function() {
-          console.log(0);
+        this.getData(++this.page);
       }
   },
   created() {
-    axios.get("https://le9hfaws.lc-cn-n1-shared.com/1.1/classes/content", {
-        headers: {
-            "X-LC-Id":"le9HfawS9RWXQPxCjDo2BxQd-gzGzoHsz",
-            "X-LC-Key":"wo0swn7kH8jRXBD3KKXdl7rR"
-        }
-    }).then((data)=>{
-        console.log(data.data.results)
-        this.contents = data.data.results
-    })
+    this.getData(1)
   }
+
 };
+
 
 </script>
 
