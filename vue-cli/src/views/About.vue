@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <avatar username="mouweng"></avatar>
+    <Avatar username="mouweng"></Avatar>
   </div>
 </template>
 
@@ -13,3 +13,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

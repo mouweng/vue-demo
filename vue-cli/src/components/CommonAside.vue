@@ -47,7 +47,6 @@
 export default {
   data () {
     return {
-      isCollapse: false,
       menu: [
         {
           path: '/',
@@ -120,6 +119,10 @@ export default {
     },
     hasChildren () {
       return this.menu.filter(item => item.children)
+    },
+    // eslint-disable-next-line vue/no-dupe-keys
+    isCollapse () {
+      return false
     }
   }
 }
